@@ -13,7 +13,7 @@ interface ProductHeaderProps{
 const ProductHeader = ({product}:ProductHeaderProps) => {
     const router =useRouter()
     const handleBackClick= () =>router.back();
-    return ( <div className="relative w-full h-[300px]">
+    return ( <div className="relative w-full min-h-[300px]">
         <Button className="absolute left-4 top-4 rounded-full z-50" variant={"secondary"} size="icon" onClick={handleBackClick}>
             <ChevronsLeftIcon/>
                 </Button>    
