@@ -9,14 +9,14 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { formatCurrency } from "@/helpers/format-currency";
 
 import CardSheet from "../../components/card-sheet";
-import { CardContext } from "../../contexts/card";
+import { CartContext } from "../../contexts/cart";
 
 interface ProductDetailsProps{
     product: Prisma.ProductGetPayload<{include:{restaurant:{select:{name:true;avatarImageUrl:true}}}}>
 }
 
 const ProductDetails = ({product}:ProductDetailsProps) => {
-    const {toggleCart} = useContext(CardContext)
+    const {toggleCart,addProduct} = useContext(CartContext)
     const[quantity,setQuantity]=useState<number>(1)
     const handleDecreaseQuantity=()=>{
         setQuantity((prev)=>{if(prev===1){
@@ -28,7 +28,7 @@ const ProductDetails = ({product}:ProductDetailsProps) => {
     const handleIncreaseQuantity=()=>{
         setQuantity((prev)=>prev+1)
     }
-    const handleAddToCard=()=>{toggleCart()}
+    const handleAddToCard=()=>{ addProduct({...product, quantity}); toggleCart()}
 
     return ( 
         <>

@@ -2,9 +2,9 @@ import { useContext } from "react";
 
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 
-import { CardContext } from "../contexts/card";
+import { CartContext } from "../contexts/cart";
 const CardSheet = () => {
-        const {isOpen,toggleCart} = useContext(CardContext)
+        const {isOpen,toggleCart,products} = useContext(CartContext)
     return ( 
         
         <Sheet open={isOpen} onOpenChange={toggleCart}>
@@ -16,6 +16,11 @@ const CardSheet = () => {
               and remove your data from our servers.
             </SheetDescription>
           </SheetHeader>
+          {products.map((products)=>(
+            <h1  key={products.id}>
+              {products.name} - {products.quantity}
+            </h1>
+          ))}
         </SheetContent>
       </Sheet>
      );

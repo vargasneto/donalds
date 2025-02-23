@@ -2,32 +2,39 @@
 import { Product } from "@prisma/client";
 import {  createContext, ReactNode, useState } from "react";
 
-interface CardProduct extends Product{
+interface CartProduct extends Pick<Product,'id'|'name'|"price"|"imageUrl">{
     quantity:number
 }
 export interface IcartContext{
     isOpen:boolean;
-    products:CardProduct[];
+    products:CartProduct[];
     toggleCart: ( )=> void;
+    addProduct: (Product:CartProduct) => void
 }
 
-export const CardContext = createContext<IcartContext>({isOpen:false,
+export const CartContext = createContext<IcartContext>({isOpen:false,
     products:[],
     toggleCart:()=> {},
+addProduct:()=> {},
 })
 
 export const CartProvider = ({children}:{children:ReactNode})=>{
-    const [products,setProducts]=useState<CardProduct[]>([]);
+    const [products,setProducts]=useState<CartProduct[]>([]);
     const [isOpen,setIsOpren]=useState<boolean>(false);
     const toggleCart= ()=> {setIsOpren(prev=>!prev)}
 
-    return(<CardContext.Provider value={{
+    const addProduct=(product:CartProduct)=>{
+        setProducts(prev=>[...prev,product]);
+
+    }
+    return(<CartContext.Provider value={{
         isOpen,
         products,
         toggleCart,
+        addProduct,
     }} >
         {children}
-    </CardContext.Provider> 
+    </CartContext.Provider> 
     )
 
 }
